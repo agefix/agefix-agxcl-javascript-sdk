@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGXCL JavaScript SDK Documentation</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #764ba2;
+            margin-top: 30px;
+        }
+        .quick-start {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .api-section {
+            margin: 30px 0;
+        }
+        .method {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border-left: 4px solid #28a745;
+        }
+        .method-name {
+            font-weight: bold;
+            color: #28a745;
+            font-size: 18px;
+        }
+        .param {
+            color: #6c757d;
+            font-style: italic;
+        }
+        .return {
+            color: #007bff;
+        }
+        a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .nav {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .nav a {
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .nav a:hover {
+            background: #764ba2;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 AGXCL JavaScript/TypeScript SDK</h1>
+        <p>Official SDK for building applications on the AgeFix blockchain using the AGXCL smart contract language.</p>
+
+        <div class="nav">
+            <a href="#installation">Installation</a>
+            <a href="#quick-start">Quick Start</a>
+            <a href="#api">API Reference</a>
+            <a href="#examples">Examples</a>
+        </div>
+
+        <div id="installation" class="quick-start">
+            <h2>📦 Installation</h2>
+            <pre><code>npm install @agefix/agxcl-sdk
+# or
+yarn add @agefix/agxcl-sdk</code></pre>
+        </div>
+
+        <div id="quick-start">
+            <h2>⚡ Quick Start</h2>
+            <pre><code>import { AgefixClient, TokenContract } from '@agefix/agxcl-sdk';
+
+// Initialize client
+const client = new AgefixClient({
+  rpcUrl: 'https://rpc.agefix.com',
+  chainId: 'agefix-mainnet-1',
+  privateKey: 'your-private-key'
+});
+
+// Deploy a token contract
+const token = new TokenContract(client);
+const deployment = await token.deploy(
+  'MyToken',
+  'MTK',
+  '1000000'
+);
+
+console.log('Contract deployed at:', deployment.contractAddress);
+
+// Transfer tokens
+const tx = await token.transfer(
+  '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb',
+  '100'
+);
+console.log('Transfer completed:', tx.txHash);</code></pre>
+        </div>
+
+        <div id="api" class="api-section">
+            <h2>📚 API Reference</h2>
+
+            <h3>AgefixClient</h3>
+            <p>Main client for interacting with the AgeFix blockchain.</p>
+
+            <div class="method">
+                <div class="method-name">constructor(config: AgefixConfig)</div>
+                <p>Creates a new client instance.</p>
+                <p><span class="param">Parameters:</span></p>
+                <ul>
+                    <li><code>config.rpcUrl</code> - RPC endpoint URL</li>
+                    <li><code>config.chainId</code> - Chain identifier</li>
+                    <li><code>config.privateKey</code> - Private key for signing transactions (optional)</li>
+                </ul>
+            </div>
+
+            <div class="method">
+                <div class="method-name">deployContract(contractCode: string, constructorArgs?: any[])</div>
+                <p>Deploys a new AGXCL smart contract to the blockchain.</p>
+                <p><span class="param">Parameters:</span></p>
+                <ul>
+                    <li><code>contractCode</code> - AGXCL contract source code</li>
+                    <li><code>constructorArgs</code> - Array of constructor arguments</li>
+                </ul>
+                <p><span class="return">Returns:</span> <code>Promise&lt;ContractDeployment&gt;</code></p>
+            </div>
+
+            <div class="method">
+                <div class="method-name">queryContract(contractAddress: string, method: string, args?: any[])</div>
+                <p>Executes a read-only contract query.</p>
+                <p><span class="param">Parameters:</span></p>
+                <ul>
+                    <li><code>contractAddress</code> - Deployed contract address</li>
+                    <li><code>method</code> - Method name to call</li>
+                    <li><code>args</code> - Method arguments</li>
+                </ul>
+                <p><span class="return">Returns:</span> <code>Promise&lt;QueryResult&gt;</code></p>
+            </div>
+
+            <div class="method">
+                <div class="method-name">executeTransaction(contractAddress: string, method: string, args?: any[], value?: string)</div>
+                <p>Executes a state-changing contract transaction.</p>
+                <p><span class="param">Parameters:</span></p>
+                <ul>
+                    <li><code>contractAddress</code> - Deployed contract address</li>
+                    <li><code>method</code> - Method name to call</li>
+                    <li><code>args</code> - Method arguments</li>
+                    <li><code>value</code> - Amount of AGX tokens to send (optional)</li>
+                </ul>
+                <p><span class="return">Returns:</span> <code>Promise&lt;TransactionResult&gt;</code></p>
+            </div>
+
+            <div class="method">
+                <div class="method-name">getBalance(address: string)</div>
+                <p>Gets the AGX token balance for an address.</p>
+                <p><span class="param">Parameters:</span></p>
+                <ul>
+                    <li><code>address</code> - Account address to query</li>
+                </ul>
+                <p><span class="return">Returns:</span> <code>Promise&lt;string&gt;</code></p>
+            </div>
+
+            <div class="method">
+                <div class="method-name">estimateGas(contractAddress: string, method: string, args?: any[])</div>
+                <p>Estimates gas cost for a transaction.</p>
+                <p><span class="param">Parameters:</span></p>
+                <ul>
+                    <li><code>contractAddress</code> - Contract address</li>
+                    <li><code>method</code> - Method name</li>
+                    <li><code>args</code> - Method arguments</li>
+                </ul>
+                <p><span class="return">Returns:</span> <code>Promise&lt;number&gt;</code></p>
+            </div>
+
+            <h3>TokenContract</h3>
+            <p>Helper class for creating and managing token contracts.</p>
+
+            <div class="method">
+                <div class="method-name">deploy(name: string, symbol: string, totalSupply: string)</div>
+                <p>Deploys a new token contract with specified parameters.</p>
+                <p><span class="param">Parameters:</span></p>
+                <ul>
+                    <li><code>name</code> - Token name (e.g., "MyToken")</li>
+                    <li><code>symbol</code> - Token symbol (e.g., "MTK")</li>
+                    <li><code>totalSupply</code> - Initial token supply</li>
+                </ul>
+                <p><span class="return">Returns:</span> <code>Promise&lt;ContractDeployment&gt;</code></p>
+            </div>
+
+            <div class="method">
+                <div class="method-name">balanceOf(address: string)</div>
+                <p>Gets token balance for an address.</p>
+            </div>
+
+            <div class="method">
+                <div class="method-name">transfer(to: string, amount: string)</div>
+                <p>Transfers tokens to another address.</p>
+            </div>
+
+            <div class="method">
+                <div class="method-name">approve(spender: string, amount: string)</div>
+                <p>Approves another address to spend tokens.</p>
+            </div>
+
+            <h3>NFTContract</h3>
+            <p>Helper class for creating and managing NFT contracts.</p>
+
+            <div class="method">
+                <div class="method-name">deploy(name: string, symbol: string)</div>
+                <p>Deploys a new NFT contract.</p>
+            </div>
+
+            <div class="method">
+                <div class="method-name">mint(to: string, uri: string)</div>
+                <p>Mints a new NFT with metadata URI.</p>
+            </div>
+
+            <div class="method">
+                <div class="method-name">ownerOf(tokenId: number)</div>
+                <p>Gets the owner of an NFT.</p>
+            </div>
+        </div>
+
+        <div id="examples">
+            <h2>💡 Examples</h2>
+
+            <h3>Token Contract</h3>
+            <pre><code>import { AgefixClient, TokenContract } from '@agefix/agxcl-sdk';
+
+const client = new AgefixClient({
+  rpcUrl: 'https://rpc.agefix.com',
+  chainId: 'agefix-mainnet-1',
+  privateKey: process.env.PRIVATE_KEY
+});
+
+// Deploy token
+const token = new TokenContract(client);
+await token.deploy('MyToken', 'MTK', '1000000');
+
+// Check balance
+const balance = await token.balanceOf('0x...');
+console.log('Balance:', balance);
+
+// Transfer tokens
+await token.transfer('0x...', '100');</code></pre>
+
+            <h3>NFT Contract</h3>
+            <pre><code>import { AgefixClient, NFTContract } from '@agefix/agxcl-sdk';
+
+const client = new AgefixClient({
+  rpcUrl: 'https://rpc.agefix.com',
+  chainId: 'agefix-mainnet-1',
+  privateKey: process.env.PRIVATE_KEY
+});
+
+// Deploy NFT collection
+const nft = new NFTContract(client);
+await nft.deploy('MyNFTs', 'MNFT');
+
+// Mint NFT
+const tx = await nft.mint(
+  '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb',
+  'ipfs://Qm...'
+);
+
+console.log('NFT minted:', tx.txHash);</code></pre>
+
+            <h3>Custom Contract Interaction</h3>
+            <pre><code>// Deploy custom contract
+const deployment = await client.deployContract(`
+contract MyContract {
+  state {
+    uint256 value;
+  }
+  
+  function setValue(uint256 newValue) public {
+    value = newValue;
+  }
+  
+  function getValue() public view returns (uint256) {
+    return value;
+  }
+}`);
+
+// Execute transaction
+await client.executeTransaction(
+  deployment.contractAddress,
+  'setValue',
+  [42]
+);
+
+// Query state
+const result = await client.queryContract(
+  deployment.contractAddress,
+  'getValue'
+);
+console.log('Value:', result.data);</code></pre>
+        </div>
+
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #eee; text-align: center; color: #6c757d;">
+            <p>Built with ❤️ by the AgeFix Team</p>
+            <p>
+                <a href="https://agefix.com">Website</a> •
+                <a href="https://github.com/agefix/agxcl-sdk">GitHub</a> •
+                <a href="https://discord.gg/agefix">Discord</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

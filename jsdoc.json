@@ -1,0 +1,53 @@
+{
+  "source": {
+    "include": ["src"],
+    "includePattern": ".+\\.ts(doc|x)?$",
+    "excludePattern": "(node_modules/|docs)"
+  },
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "opts": {
+    "template": "node_modules/docdash",
+    "encoding": "utf8",
+    "destination": "./docs/",
+    "recurse": true,
+    "verbose": true,
+    "readme": "README.md"
+  },
+  "templates": {
+    "cleverLinks": true,
+    "monospaceLinks": true,
+    "default": {
+      "outputSourceFiles": true,
+      "includeDate": false
+    },
+    "docdash": {
+      "static": true,
+      "sort": true,
+      "search": true,
+      "collapse": false,
+      "typedefs": true,
+      "removeQuotes": "none",
+      "scripts": [],
+      "menu": {
+        "GitHub": {
+          "href": "https://github.com/agefix/agxcl-sdk",
+          "target": "_blank",
+          "class": "menu-item",
+          "id": "github-link"
+        },
+        "AgeFix": {
+          "href": "https://agefix.com",
+          "target": "_blank",
+          "class": "menu-item",
+          "id": "agefix-link"
+        }
+      }
+    }
+  },
+  "markdown": {
+    "hardwrap": false,
+    "idInHeadings": true
+  }
+}

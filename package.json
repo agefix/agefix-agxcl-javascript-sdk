@@ -1,0 +1,50 @@
+{
+  "name": "@agefix/agxcl-sdk",
+  "version": "1.0.0",
+  "description": "Official JavaScript/TypeScript SDK for AGXCL smart contracts on AgeFix blockchain",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agefix/agxcl-sdk-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/agefix/agxcl-sdk-js/issues"
+  },
+  "homepage": "https://agefix.com/developers/sdk",
+  "scripts": {
+    "build": "tsc",
+    "docs": "jsdoc -c jsdoc.json",
+    "docs:serve": "npm run docs && npx http-server docs -p 8080",
+    "test": "jest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "blockchain",
+    "agxcl",
+    "agefix",
+    "smart-contracts",
+    "healthcare",
+    "web3"
+  ],
+  "author": "AgeFix Team",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "ethers": "^6.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0",
+    "jest": "^29.7.0",
+    "jsdoc": "^4.0.2",
+    "docdash": "^2.0.2",
+    "typescript-to-jsdoc": "^1.0.0"
+  }
+}
