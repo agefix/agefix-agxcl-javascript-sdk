@@ -89,40 +89,136 @@ const owner = await nft.ownerOf(tokenId);
 
 ## Examples
 
-### Deploy Custom Contract
+The `examples/` directory contains comprehensive code examples for all AgeFix protocol interactions:
 
-```typescript
-const contractCode = `
-contract SimpleStorage {
-  state {
-    uint256 value;
-  }
+### 📁 Available Example Files
 
-  function setValue(uint256 newValue) public {
-    value = newValue;
-  }
+- **[defi-examples.js](examples/defi-examples.js)** - DeFi Protocol Examples
+  - Liquidity pool creation and management
+  - Token swaps with slippage protection
+  - Lending and borrowing with collateral
+  - Yield farming and staking
+  - Portfolio analytics and TVL statistics
 
-  function getValue() public view returns (uint256) {
-    return value;
-  }
-}
-`;
+- **[gaming-examples.js](examples/gaming-examples.js)** - Gaming Protocol Examples
+  - Game registration and session management
+  - Tournament creation and participation
+  - Achievement unlocking and tracking
+  - Player statistics and leaderboards
 
-const deployment = await client.deployContract(contractCode);
-await client.executeTransaction(deployment.contractAddress, 'setValue', [42]);
-const result = await client.queryContract(deployment.contractAddress, 'getValue', []);
-console.log('Stored value:', result.data);
+- **[nft-examples.js](examples/nft-examples.js)** - NFT Marketplace Examples
+  - NFT minting with metadata and IPFS
+  - Listing and buying NFTs
+  - Auction creation and bidding
+  - NFT discovery and collection management
+
+- **[governance-examples.js](examples/governance-examples.js)** - Governance Protocol Examples
+  - Proposal creation and voting
+  - Gauge weight voting for reward distribution
+  - Validator bribes and incentives
+  - Governance statistics and history
+
+### 🚀 Running Examples
+
+Each example file can be run directly or imported into your project:
+
+```bash
+# Install dependencies
+npm install
+
+# Set environment variables
+export AGEFIX_API_KEY="your_api_key"
+export WALLET_ADDRESS="your_wallet_address"
+export PRIVATE_KEY="your_private_key"
+
+# Run a specific example
+node examples/defi-examples.js
+node examples/gaming-examples.js
+node examples/nft-examples.js
+node examples/governance-examples.js
 ```
 
-### Check Transaction Status
+### 📖 Using Examples in Your Code
+
+Import individual functions from example files:
 
 ```typescript
-const tx = await token.transfer(recipientAddress, '100');
-const receipt = await client.getTransactionReceipt(tx.txHash);
-console.log('Transaction status:', receipt.status);
-console.log('Block number:', receipt.blockNumber);
-console.log('Gas used:', receipt.gasUsed);
+import { 
+  createLiquidityPool,
+  swapTokens,
+  completeDeFiWorkflow 
+} from '@agefix/agxcl-sdk/examples/defi-examples';
+
+// Create a liquidity pool
+const pool = await createLiquidityPool();
+
+// Execute a token swap
+await swapTokens(pool.poolId, 'AGX', 100, 49.5);
+
+// Run complete DeFi workflow
+await completeDeFiWorkflow();
 ```
+
+### 🎯 Quick Example: DeFi Swap
+
+```typescript
+import { AgefixClient } from '@agefix/agxcl-sdk';
+
+const client = new AgefixClient({
+  apiUrl: 'https://api.agefix.com',
+  apiKey: process.env.AGEFIX_API_KEY,
+  walletAddress: process.env.WALLET_ADDRESS,
+  privateKey: process.env.PRIVATE_KEY
+});
+
+// Get swap quote
+const quote = await client.defi.getSwapQuote({
+  poolId: 'pool_123',
+  tokenIn: 'AGX',
+  amountIn: 100
+});
+
+console.log('You will receive:', quote.amountOut, 'CURE');
+
+// Execute swap with slippage protection
+const result = await client.defi.swap({
+  poolId: 'pool_123',
+  tokenIn: 'AGX',
+  amountIn: 100,
+  minAmountOut: quote.amountOut * 0.99 // 1% slippage
+});
+
+console.log('Swap completed!', result.txHash);
+```
+
+### 🎮 Quick Example: Gaming Session
+
+```typescript
+// Register a game
+const game = await client.gaming.registerGame({
+  gameName: 'AgeFix Quest',
+  gameType: 'adventure',
+  entryFeeAgx: 10,
+  rewardPoolAgx: 1000
+});
+
+// Start game session
+const session = await client.gaming.startSession({
+  gameId: game.gameId,
+  difficulty: 'hard'
+});
+
+// Submit score with achievements
+const result = await client.gaming.submitScore({
+  sessionId: session.sessionId,
+  score: 9500,
+  achievementIds: ['first_win', 'speed_runner']
+});
+
+console.log('Earned:', result.rewardsEarned, 'AGX');
+```
+
+For more detailed examples, see the individual example files in the `examples/` directory.
 
 ## Error Handling
 
